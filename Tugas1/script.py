@@ -6,25 +6,25 @@ client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["courses"]
 collection = db["courses"]
 
-# Read courses from courses.json
+# membaca data json
 with open("courses.json", "r") as f:
     courses = json.load(f)
 
-# Create index for efficient retrieval
+# membuat index name
 collection.create_index("name")
 
-# add rating field to each course
+# membuat variabel rating di courses
 for course in courses:
     course['rating'] = {'total': 0, 'count': 0}
     
-# add rating field to each chapter
+# menambahkan variabel rating di setiap chapter
 for course in courses:
     for chapter in course['chapters']:
         chapter['rating'] = {'total': 0, 'count': 0}
 
-# Add courses to collection
+# menambahkan courses ke collection
 for course in courses:
     collection.insert_one(course)
 
-# Close MongoDB connection
+# menutup koneksi dengan MongoDB
 client.close()
